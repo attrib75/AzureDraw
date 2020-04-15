@@ -23,6 +23,11 @@ namespace AzureDraw.Controllers
             return View();
         }
 
+        public IActionResult QuickDrawViewer()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

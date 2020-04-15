@@ -1,9 +1,176 @@
-﻿<script type="text/javascript">
+﻿<div class="row">
+    <div class="col-lg-12">
+    </div>
+    <div class="container">
+        <div class="form-group row">
+            <h4>Hey, its an image recognizer!</h4>&nbsp;&nbsp;&nbsp;
+            <a data-toggle="collapse" data-target="#demo" href="#">...... more </a>
+        </div>
+
+        <div id="demo" class="collapse">
+            <p>
+                This is an image recognizing app inspired by and based on <a href=https://quickdraw.withgoogle.com" target="_blank">Google Quick Draw</a> and its graciously provided <a href="https://quickdraw.withgoogle.com/data">open data set</a>.
+                It is built using Microsoft's <a href="https://www.customvision.ai/" target="_blank">Custom Vision AI Service</a>.
+                The custom vision service is part of a larger family of AI cloud services in Azure called <a href="https://docs.microsoft.com/en-us/azure/cognitive-services/">Cognitive Services</a>.
+                When I saw what was being done with Google Quick Draw, I thought it would be great opportunity to train a custom vision model using the open data set of doodles.  This is a quick demo, so the trained model
+                uses only a small number of images to start.  By using this site, you help train the model by submitting your image to be analyzed anonymously.
+            </p>
+        </div>
+    </div>
+</div>
+
+<br />
+<div class="row">
+    <div class="col-md-6">
+
+        <div class="form-group row">
+            <h4>1. Start with this object: </h4>
+            <h2 class="nextThingToDraw" style="color:coral; margin-top: -5px; margin-left: 40px;"></h2>
+        </div>
+        <div class="row">
+            <button class="btn btn-success" type="button" id="getImageButton">Get the next thing to draw!</button>
+        </div>
+        <div class="row">
+            <span>
+                Click start to get an image to draw.  Then Draw it in the canvas area. Cick 'Predict' to see if the AI can recognize what you're drawing.
+                The draw area supports touchscreen and mouse
+            </span>
+        </div>
+        <br />
+        <div class="row">
+            <h4>2. Draw It</h4>
+        </div>
+
+        <div class="row">
+            <br />  <br /> <br />
+            <canvas id="sketchpad" height="300" width="400">
+            </canvas>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+            </div>
+            <div class="col-md-7">
+                <button class="btn btn-secondary offset-sm-1" type="button" id="clearbutton" style="color: dodgerblue"
+                        onclick="clearCanvas(canvas,ctx);">
+                    Clear Drawing Area
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4" style="padding-left: 50px;">
+        <div class="row">
+            <h4 style="display: inline-block">3.</h4>&nbsp;&nbsp;
+            <button class="btn btn-success" type="button" id="predictButton" style="margin-bottom: 3px;">Predict!</button>
+        </div>
+        <br />
+        <div class="row">
+            <h4>Prediction:</h4>
+        </div>
+
+        <br />
+        <div class="form-group row">
+
+            <span>Was the prediction right?</span>&nbsp;&nbsp;
+            <button type="button" class="btn btn-primary">Yes</button>&nbsp;&nbsp;
+            <button type="button" class="btn btn-secondary">No</button>
+        </div>
+        <div class="form-group row">
+            <span>Ok to use your drawing?&nbsp;</span>&nbsp;&nbsp;
+            <button type="button" class="btn btn-primary">Yes</button>&nbsp;&nbsp;
+            <button type="button" class="btn btn-secondary">No</button>
+        </div>
+    </div>
+</div>
+
+<style>
+
+    /*animation*/
+    @@keyframes bounceIn {
+        0% {
+            transform: scale(0.1);
+            opacity: 0;
+        }
+
+        60% {
+            transform: scale(1.2);
+            opacity: 1;
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .nextThingToDraw {
+        animation-duration: 2s;
+        animation-name: bounceIn;
+    }
+
+    /* Some CSS styling */
+    #sketchpadapp {
+        /* Prevent nearby text being highlighted when accidentally dragging mouse outside confines of the canvas */
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    #sketchpad {
+        float: left;
+        height: 300px;
+        width: 400px;
+        border: 2px solid #888;
+        border-radius: 4px;
+        position: relative; /* Necessary for correct mouse co-ords in Firefox */
+    }
+
+    #clearbutton {
+        font-size: 15px;
+        padding: 10px;
+        -webkit-appearance: none;
+        background: #eee;
+        border: 1px solid #888;
+    }
+</style>
+@*This draw implementation comes from a great article found here
+    https://zipso.net/a-simple-touchscreen-sketchpad-using-javascript-and-html5/*@
+<script type="text/javascript">
     // Variables for referencing the canvas and 2dcanvas context
-    var canvas, ctx, penSize;
+    var canvas, ctx, penSize, words, thisWordIndex;
+
     $(document).ready(function () {
+        words = ['Alarm Clock', 'Airplane'];
+        thisWordIndex = 0;
+        $('.nextThingToDraw').html(words[0]);
         penSize = 5;
         init();
+    });
+
+    $(".more").toggle(function () {
+        $(this).text("less..").siblings(".complete").show();
+    }, function () {
+        $(this).text("more..").siblings(".complete").hide();
+    });
+
+    $("#getImageButton").click(function () {
+        thisWordIndex++;
+        //Proceed through the words to draw.  Start over when you reach the end
+        if (thisWordIndex > 1) {
+            thisWordIndex = 0;
+        }
+        $('.nextThingToDraw').html(words[thisWordIndex]);
+
+        //clone the element (re-triggers the animation)
+        var el = $('.nextThingToDraw'),
+            newone = el.clone(true);
+        //insert it before the existing element
+        el.before(newone);
+        //remove the original element by finding it in relation to the clone
+        $("." + el.attr("class") + ":last").remove();
+
     });
 
     // Variables to keep track of the mouse position and left-button status
@@ -171,63 +338,3 @@
         }
     }
 </script>
-
-<style>
-    /* Some CSS styling */
-    #sketchpadapp {
-        /* Prevent nearby text being highlighted when accidentally dragging mouse outside confines of the canvas */
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-    }
-
-    #sketchpad {
-        float: left;
-        height: 300px;
-        width: 400px;
-        border: 2px solid #888;
-        border-radius: 4px;
-        position: relative; /* Necessary for correct mouse co-ords in Firefox */
-    }
-
-    #clearbutton {
-        font-size: 15px;
-        padding: 10px;
-        -webkit-appearance: none;
-        background: #eee;
-        border: 1px solid #888;
-    }
-</style>
-<div class="row">
-    <div class="col-lg-12">
-        <h3>Hey, its an image recognizer!</h3>
-        <p class="lead">
-            This is an image recognizing app inspired by and based on <a href=https://quickdraw.withgoogle.com" target="_blank">Google Quick Draw</a> and its graciously provided open data set.
-            It is built using Microsoft's <a href="https://www.customvision.ai/" target="_blank">Custom Vision AI Service</a>.
-            The custom vision service is part of a larger family of Azure AI cloud services in Azure called <a href="https://docs.microsoft.com/en-us/azure/cognitive-services/">Cognitive Services</a>.
-            When I saw what was being done with Google Quick Draw, I thought it would be great opportunity to try out custom vision using the open data set of doodles.  This is a quick demo, so the trained model
-            uses only a small number of images
-        </p>
-    </div>
-</div>
-<div class="row sketchpadapp">
-
-    <div class="col-md-4 ">
-        <h3>Choose</h3>
-        Choose an image to draw below.  Then Draw it in the canvas area.  See if the AI can recognize what you're drawing.
-        The draw area supports touchscreen and mouse<br /><br />
-
-        <input type="submit" value="Clear Sketchpad" id="clearbutton" onclick="clearCanvas(canvas,ctx);">
-    </div>
-    <div class="col-md-5">
-        <h3>Draw</h3>
-        <canvas id="sketchpad" height="300" width="400">
-        </canvas>
-    </div>
-    <div class="col-md-3">
-        <h3>Result</h3>
-    </div>
-</div>
