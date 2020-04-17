@@ -1,0 +1,2 @@
+# AzureDraw
+This is the Azure/Cognitive Services version of [Google Quick Draw](https://quickdraw.withgoogle.com/#).  I saw this and was like, yeah we Azure fans can build this but using  [Microsoft Cognitive Services](https://azure.microsoft.com/en-us/services/cognitive-services/).  See [this tweet ](https://twitter.com/PatrickGoode/status/1248373682163994626).  We can't be outdone can we?  Join the cause! Help me build this. 
