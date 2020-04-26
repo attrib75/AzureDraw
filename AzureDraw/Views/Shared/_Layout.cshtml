@@ -18,7 +18,7 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 
     <!-- Custom styles for this template -->
-    <link href="css/landing-page.css" rel="stylesheet">
+    <link href="~/css/landing-page.css" rel="stylesheet">
 
     <!-- Bootstrap core JavaScript -->
     <script src="~/lib/jquery/jquery.min.js"></script>
@@ -28,7 +28,9 @@
     <script src="~/lib/font-awesome/js/all.min.js"></script>
     <link href="~/lib/font-awesome/css/fontawesome.css" rel="stylesheet" />
     @RenderSection("Scripts", required: false)
+    <link href="~/css/gh-fork-ribbon.css" rel="stylesheet" />
 </head>
+
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -39,6 +41,10 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <div class="nav navbar-text navbar-right">
+                        <a class="github-fork-ribbon right-top" href="https://url.to-your.repo"
+                           data-ribbon="Fork me on GitHub" title="Fork me on GitHub">Fork me on GitHub</a>
+                    </div>
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
@@ -51,15 +57,45 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
+    <main class="container-fluid">
+        @RenderBody()
+    </main>
+    <!-- Footer -->
+    <hr />
+    <footer class="footer">
         <div class="container">
-            &copy; 2020 - AzureDraw - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+
+            <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+                <ul class="list-inline mb-2">
+
+                    <li class="list-inline-item">
+                        <a href="~/home/terms">Terms of Use</a>
+                    </li>
+                    <li class="list-inline-item">&sdot;</li>
+                    <li class="list-inline-item">
+                        <a href="~/home/privacy">Privacy Policy</a>
+                    </li>
+                </ul>
+            </div>
+            @*<div class="col-lg-6 h-100 text-center text-lg-right my-auto">
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item mr-3">
+                            <a href="#">
+                                <i class="fab fa-facebook fa-2x fa-fw"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item mr-3">
+                            <a href="#">
+                                <i class="fab fa-twitter-square fa-2x fa-fw"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#">
+                                <i class="fab fa-instagram fa-2x fa-fw"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>*@
         </div>
     </footer>
 </body>

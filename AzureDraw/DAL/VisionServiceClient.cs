@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction;
+﻿using Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction;
 using Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training;
 using Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace AzureDraw.DAL
 {
@@ -24,7 +23,7 @@ namespace AzureDraw.DAL
             _modelName = modelName;
         }
 
-        public async Task<bool> UploadTrainingImage(MemoryStream memoryStream, string tagName)
+        public async Task<ImageCreateSummary> UploadTrainingImage(MemoryStream memoryStream, string tagName)
         {
             CustomVisionTrainingClient trainingApi = new CustomVisionTrainingClient()
             {
@@ -34,13 +33,32 @@ namespace AzureDraw.DAL
             var tags = await trainingApi.GetTagsAsync(_projectId);
             foreach (var tag in tags)
             {
-                if (tag.Description.Equals(tagName, StringComparison.InvariantCultureIgnoreCase))
+                if (tag.Name.Equals(tagName, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    trainingApi.CreateImagesFromData(_projectId, memoryStream, new List<Guid>() { tag.Id });
-                    return true;
+                    var res = trainingApi.CreateImagesFromData(_projectId, memoryStream, new List<Guid>() { tag.Id });
+                    return res;
                 }
             }
-            return false;
+            return null;
+        }
+
+        public async Task<Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction.Models.ImagePrediction>
+            PredictImage(MemoryStream memoryStream)
+        {
+            CustomVisionPredictionClient endpoint = new CustomVisionPredictionClient()
+            {
+                ApiKey = _apiKey,
+                Endpoint = _apiEndpoint
+            };
+            var result = await endpoint.ClassifyImageAsync(_projectId, _modelName, memoryStream);
+
+            // Loop over each prediction and write out the results
+            foreach (var c in result.Predictions)
+            {
+                Console.WriteLine($"\t{c.TagName}: {c.Probability:P1}");
+            }
+
+            return result;
         }
     }
 }

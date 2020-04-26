@@ -1,112 +1,118 @@
-﻿<body>
-    <!-- Icons Grid -->
+﻿<div id="sketchpadapp">
     <section class="features-icons text-center">
-        <div class="container">
-            <div class="form-group row">
-                <h4 style="color: #343a40!important;">Hey, its a doodle recognizer!</h4>&nbsp;&nbsp;&nbsp;
-                <a data-toggle="collapse" data-target="#demo" href="#" style="margin-top: 5px;">... more </a>
-            </div>
-            <div id="demo" class="collapse" style="text-align: start">
-                <p>
-                    This is an doodle recognizing app inspired by and based on <a href=https://quickdraw.withgoogle.com" target="_blank">Google Quick Draw</a> and its graciously provided <a href="https://quickdraw.withgoogle.com/data">open data set</a>.
-                    It is built using Microsoft's <a href="https://www.customvision.ai/" target="_blank">Custom Vision AI Service</a>.
-                    The custom vision service is part of a larger family of AI cloud services in Azure called <a href="https://docs.microsoft.com/en-us/azure/cognitive-services/">Cognitive Services</a>.
-                    When I saw what was being done with Google Quick Draw, I thought it would be great opportunity to train a custom vision model using the open data set of doodles.  This is a quick demo, so the trained model
-                    uses only a small number of images to start.  By using this site, you help train the model by submitting your image to be analyzed anonymously.
-                </p>
-            </div>
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-                        <div class="features-icons-icon d-flex">
-                            <i class="icon-mouse m-auto text-primary"></i>
-                        </div>
-                        <h4>1. Start with this object</h4>
-
-                        <h2 class="nextThingToDraw" style="color:coral;"></h2>
-                        <br />
-                        <button class="btn btn-success" type="button" id="getImageButton">Get the next thing to draw!</button>
-                        <br /> <br />
-                        <p class="mb-0" style="text-align: start">Click start to get an image to draw. Then Draw it in the canvas area. Cick 'Predict' to see if the AI can recognize what you're drawing. The draw area supports touchscreen and mouse</p>
-                    </div>
+        <div class="row" style="text-align: start">
+            <div class="col-md-6">
+                <div class="offset-sm-1">
+                    <h5 style="color: #343a40!important;">
+                        Hey, its a doodle recognizer! &nbsp;  &nbsp;
+                        <a class="small" data-toggle="collapse" data-target="#info" href="#" style="margin-top: 5px;">... more </a>
+                    </h5>&nbsp;&nbsp;&nbsp;
                 </div>
-                <div class="col-lg-6">
-                    <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-                        <div class="features-icons-icon d-flex">
-                            <i class="icon-note m-auto text-primary"></i>
-                        </div>
-                        <h4>2. Draw It</h4>
-                        <canvas id="sketchpad" height="300" width="400" style="margin-bottom: 10px;">
-                        </canvas>
-                        <button class="btn btn-secondary offset-sm-6" type="button" id="clearbutton" style="color: dodgerblue"
-                                onclick="clearCanvas(canvas,ctx);">
+            </div>
+            <div class="col-md-6" style="text-align: left; margin-left: -30px;">
+                <div class="spinner-border text-primary" role="status" id="spinnerDiv">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+        <div id="info" class="collapse offset-sm-1" style="text-align: start">
+            <p>
+                This is an doodle recognizing app inspired by and based on <a href=https://quickdraw.withgoogle.com" target="_blank">Google Quick Draw</a> and its graciously provided <a href="https://quickdraw.withgoogle.com/data">open data set</a>.
+                It is built using Microsoft's <a href="https://www.customvision.ai/" target="_blank">Custom Vision AI Service</a>.
+                The custom vision service is part of a larger family of AI cloud services in Azure called <a href="https://docs.microsoft.com/en-us/azure/cognitive-services/">Cognitive Services</a>.
+                When I saw what was being done with Google Quick Draw, I thought it would be great opportunity to train a custom vision model using the open data set of doodles.  This is a quick demo, so the trained model
+                uses only a small number of images to start.  By using this site, you help train the model by submitting your image to be analyzed anonymously.
+            </p>
+        </div>
+        <div class="row" style="margin-top: -30px;">
+
+            <div class="col-lg-4">
+                <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                    <div class="features-icons-icon d-flex">
+                        <i class="icon-mouse m-auto text-primary"></i>
+                    </div>
+                    <h5>1. Start with this object</h5>
+
+                    <h2 class="nextThingToDraw" style="color:coral; margin-top: 20px;"></h2>
+
+                    <button class="btn btn-success" style="margin-top: 10px;" type="button" id="getImageButton">Get the next thing to draw!</button>
+                    <br />
+                    <p class="mb-0" style="text-align: start; margin-top: 15px; margin-left: 15px;">Click start to get an image to draw. Then Draw it in the canvas area. Cick 'Predict' to see if the AI can recognize what you're drawing. The draw area supports touchscreen and mouse</p>
+                </div>
+            </div>
+            <div class="col-lg-4" style="margin-left: -15px; margin-right: 10px;">
+
+                <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                    <div class="features-icons-icon d-flex">
+                        <i class="icon-note m-auto text-primary"></i>
+                    </div>
+                    <h5>2. Draw It</h5>
+                    <canvas id="sketchpad" height="300" width="400" style="margin-bottom: 10px;">
+                    </canvas>
+                    <div class="text-right">
+                        <button class="btn btn-secondary" type="button" id="clearbutton" style="color: dodgerblue"
+                                onclick="ClearCanvasClick()">
                             Clear Drawing Area
                         </button>
                     </div>
                 </div>
-                <div class="col-lg-3">
-                    <div class="features-icons-item mx-auto mb-0 mb-lg-3">
-                        <div class="features-icons-icon d-flex">
-                            <i class="icon-chemistry m-auto text-primary"></i>
-                        </div>
-                        <h4>3: Prediction:</h4>
-
-                        <p class=" mb-0" style="text-align: start">Click the button to see if the Artificial Intelligence recognizes your drawing</p>
-                        <br />
-                        <button class="btn btn-success" type="button" id="predictButton" style="margin-bottom: 3px;">Predict!</button>
+            </div>
+            <div class="col-lg-4">
+                <div class="features-icons-item mx-auto mb-0 mb-lg-3">
+                    <div class="features-icons-icon d-flex">
+                        <i class="icon-chemistry m-auto text-primary"></i>
                     </div>
+
+                    <h5 style="margin-bottom: 20px; ">3: Prediction:</h5>
+
+                    <p class=" mb-0" style="text-align: start; margin-bottom: 10px; margin-top: 20px; margin-left: 10px;">Click the button to see if the Artificial Intelligence recognizes your drawing</p>
+                    <button class="btn btn-success" type="button" id="predictButton" style="margin-bottom: 5px; margin-top: 15px;">Predict!</button>
+
+                    <div class="row">
+                        <div class="form-inline">
+                            <span>You drew:</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group row">
+                            <img style="width: 250px;" id="yourDrawnImage" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <form class="form-inline">
+                            <label class="col-form-label">The model thinks it is a:</label>
+                            <h5 id="predectionResult" class="mx-2"></h5>
+                        </form>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <form class="form-inline">
+                            <label class="col-form-label">Was the prediction right?</label>
+                            <button type="button" class="btn btn-primary mx-2" id="predictionRightButton">Yes</button>
+                            <button type="button" class="btn btn-secondary" id="predictionNotRightButton">No</button>
+                        </form>
+                    </div>
+                    <br />
+                    @*Todo:  make this visible if you want to upload training images*@
+                    <div class="row" style="display: none;">
+                        <form class="form-inline">
+                            <div class="form-group mr-2">
+                                <label class="col-form-label">Ok to use your drawing?</label>
+                            </div>
+                            <button type="button" id="useDrawing" class="btn btn-primary mx-2">Yes</button>
+                            <button type="button" class="btn btn-secondary" id="notOkToUseDrawingButton">No</button>
+                        </form>
+                    </div>
+                    <audio id="resultAnnouncement" style="display:none">
+                        <source type="audio/wav">
+                    </audio>
                 </div>
             </div>
         </div>
     </section>
-    <!-- Footer -->
-    <hr />
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
-                    <ul class="list-inline mb-2">
-                        <li class="list-inline-item">
-                            <a href="#">About</a>
-                        </li>
-                        <li class="list-inline-item">&sdot;</li>
-                        <li class="list-inline-item">
-                            <a href="#">Contact</a>
-                        </li>
-                        <li class="list-inline-item">&sdot;</li>
-                        <li class="list-inline-item">
-                            <a href="#">Terms of Use</a>
-                        </li>
-                        <li class="list-inline-item">&sdot;</li>
-                        <li class="list-inline-item">
-                            <a href="#">Privacy Policy</a>
-                        </li>
-                    </ul>
-                    <p class="text-muted small mb-4 mb-lg-0">&copy; Your Website 2019. All Rights Reserved.</p>
-                </div>
-                <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
-                    <ul class="list-inline mb-0">
-                        <li class="list-inline-item mr-3">
-                            <a href="#">
-                                <i class="fab fa-facebook fa-2x fa-fw"></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item mr-3">
-                            <a href="#">
-                                <i class="fab fa-twitter-square fa-2x fa-fw"></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#">
-                                <i class="fab fa-instagram fa-2x fa-fw"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
-</body>
+</div>
+
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" type="text/css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
@@ -152,6 +158,7 @@
         border-radius: 4px;
         position: relative; /* Necessary for correct mouse co-ords in Firefox */
         margin-left: -30px;
+        background-color: white;
     }
 
     #clearbutton {
@@ -162,30 +169,177 @@
         border: 1px solid #888;
     }
 </style>
-@*This draw implementation comes from a great article found here
-    https://zipso.net/a-simple-touchscreen-sketchpad-using-javascript-and-html5/*@
+
+@*The sketchpad implementation comes from a great article found here https://zipso.net/a-simple-touchscreen-sketchpad-using-javascript-and-html5/*@
 <script type="text/javascript">
     // Variables for referencing the canvas and 2dcanvas context
     var canvas, ctx, penSize, words, thisWordIndex;
 
+    // Variables to keep track of the mouse position and left-button status
+    var mouseX, mouseY, mouseDown = 0;
+
+    // Variables to keep track of the touch position
+    var touchX, touchY;
+
+    // Keep track of the old/last position when drawing a line
+    // We set it to -1 at the start to indicate that we don't have a good value for it yet
+    var lastX, lastY = -1;
+
+    //set the pen size of the canvaas
+    penSize = 5;
     $(document).ready(function () {
-        words = ['Alarm Clock', 'Airplane'];
+        $("#spinnerDiv").hide();
+
+        //set up the objects to draw
+        words = ['Alarm Clock', 'Airplane', 'Baseball'];
         thisWordIndex = 0;
         $('.nextThingToDraw').html(words[0]);
-        penSize = 5;
-        init();
+
+        initCanvas();
     });
 
+    //#region handlers
+
+    //Toggle show and hide of description at top page
     $(".more").toggle(function () {
         $(this).text("less..").siblings(".complete").show();
     }, function () {
         $(this).text("more..").siblings(".complete").hide();
     });
 
+    //Predict!
+    $("#predictButton").click(function () {
+
+        var dataURL = canvasToImage('#FFFFFF'); //canvas.toDataURL('image/jpeg', 1.0);
+        //if not blank
+        if (!dataURL || dataURL == 'data:image/png;base64,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') {
+            return;
+        }
+        $("#spinnerDiv").show();
+
+        //show what you just drew
+        $('#yourDrawnImage').attr("src", dataURL);
+        console.log('raw data url: ' + dataURL);
+
+        $.ajax({
+            type: "POST",
+            async: true,
+            url: "Home/Predict",
+            data: { 'imageData': dataURL },
+
+            success: function (result) {
+                $("#spinnerDiv").hide();
+                if (result.tagName == 'Negative') {
+                    result.tagName = 'Unknown';
+                }
+                $("#predectionResult").html(result.tagName);
+
+                //announce the result
+                var fileName;
+                switch (result.tagName) {
+                    case 'Unknown':
+                        fileName = '/audio/dontknow.wav';
+
+                        break;
+                    case 'alarm-clock':
+                        fileName = '/audio/alarmclock.wav';
+
+                        break;
+                    case 'airplane':
+                        fileName = '/audio/airplane.wav';
+
+                        break;
+
+                    case 'baseball':
+                        fileName = '/audio/baseball.wav';
+
+                        break;
+                    default:
+                        break;
+                }
+
+                var resultAnnouncement = $('#resultAnnouncement').attr('src', fileName)[0]
+                resultAnnouncement.play()
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                toastr.error('There was an error.');
+                $("#spinnerDiv").hide();
+            },
+            failure: function (response) {
+                toastr.error('There was an error.');
+                $("#spinnerDiv").hide();
+            }
+        });
+
+        //convertURIToImageData(dataURL).then(function (imageData) {
+        //    // Here you can use imageData
+        //    console.log('converted image data: ' + imageData);
+
+        //});
+        //  $("#searchResultsDiv").fadeOut('fast');
+    });
+
+    //Train!
+    $("#useDrawing").click(function () {
+        $("#spinnerDiv").show();
+
+        var dataURL = canvas.toDataURL();
+        if (!dataURL) {
+            return;
+        }
+        //show what you just drew
+        $('#yourDrawnImage').attr("src", dataURL);
+        console.log('raw data url: ' + dataURL);
+
+        $.ajax({
+            type: "POST",
+            async: true,
+            url: "Home/UploadTrainingImage",
+            data: { 'imageData': dataURL, 'tagName': $('.nextThingToDraw').html() },
+
+            success: function (result) {
+                $("#spinnerDiv").hide();
+                toastr.success('Uploaded.  Thanks!');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                toastr.error('There was an error.');
+                $("#spinnerDiv").hide();
+            },
+            failure: function (response) {
+                toastr.error('There was an error.');
+                $("#spinnerDiv").hide();
+            }
+        });
+
+        //convertURIToImageData(dataURL).then(function (imageData) {
+        //    // Here you can use imageData
+        //    console.log('converted image data: ' + imageData);
+
+        //});
+        //  $("#searchResultsDiv").fadeOut('fast');
+    });
+
+    function convertURIToImageData(URI) {
+        return new Promise(function (resolve, reject) {
+            if (URI == null) return reject();
+            var canvas = document.createElement('canvas'),
+                context = canvas.getContext('2d'),
+                image = new Image();
+            image.addEventListener('load', function () {
+                canvas.width = image.width;
+                canvas.height = image.height;
+                context.drawImage(image, 0, 0, canvas.width, canvas.height);
+                resolve(context.getImageData(0, 0, canvas.width, canvas.height));
+            }, false);
+            image.src = URI;
+        });
+    }
+
+    //Get the next word
     $("#getImageButton").click(function () {
         thisWordIndex++;
         //Proceed through the words to draw.  Start over when you reach the end
-        if (thisWordIndex > 1) {
+        if (thisWordIndex > words.length - 1) {
             thisWordIndex = 0;
         }
         $('.nextThingToDraw').html(words[thisWordIndex]);
@@ -200,15 +354,84 @@
 
     });
 
-    // Variables to keep track of the mouse position and left-button status
-    var mouseX, mouseY, mouseDown = 0;
+    $("#predictionRightButton").click(function () {
+        //todo:  track the result if you want
+        toastr.success('Thanks for sharing.  This helps measure the performance of the model');
+    });
 
-    // Variables to keep track of the touch position
-    var touchX, touchY;
+    $("#predictionNotRightButton").click(function () {
+        //todo:  track the negative result if you want
+        toastr.warning('Aww, shucks. Thanks for sharing though.  This helps measure the performance of the model');
+    });
 
-    // Keep track of the old/last position when drawing a line
-    // We set it to -1 at the start to indicate that we don't have a good value for it yet
-    var lastX, lastY = -1;
+    $("#notOkToUseDrawingButton").click(function () {
+        //todo:  handle not being allowed to save drawing if you want
+        toastr.warning('No problem.  This site won\'t save anything');
+    });
+    //#endregion
+
+    function ClearCanvasClick() {
+        ClearCanvas();
+        ClearDrawnPicture();
+    }
+
+    function ClearDrawnPicture() {
+        $('#yourDrawnImage').attr("src", '');
+    }
+
+    //clear the drawing canvas
+    function ClearCanvas() {
+        clearCanvas(canvas, ctx);
+    }
+
+    // create an image with a background, otherwise the background is black and it throws off the AI
+    // https://www.mikechambers.com/blog/2011/01/31/setting-the-background-color-when-generating-images-from-canvas-todataurl/
+    function canvasToImage(backgroundColor) {
+        //cache height and width
+        var w = canvas.width;
+        var h = canvas.height;
+
+        var data;
+
+        if (backgroundColor) {
+            //get the current ImageData for the canvas.
+            data = ctx.getImageData(0, 0, w, h);
+
+            //store the current globalCompositeOperation
+            var compositeOperation = ctx.globalCompositeOperation;
+
+            //set to draw behind current content
+            ctx.globalCompositeOperation = "destination-over";
+
+            //set background color
+            ctx.fillStyle = backgroundColor;
+
+            //draw background / rect on entire canvas
+            ctx.fillRect(0, 0, w, h);
+        }
+
+        //get the image data from the canvas
+        var imageData = this.canvas.toDataURL("image/png");
+
+        if (backgroundColor) {
+            //clear the canvas
+            ctx.clearRect(0, 0, w, h);
+
+            //restore it with original / cached ImageData
+            ctx.putImageData(data, 0, 0);
+
+            //reset the globalCompositeOperation to what it was
+            ctx.globalCompositeOperation = compositeOperation;
+        }
+
+        //return the Base64 encoded data url string
+        return imageData;
+    }
+
+    ///////////////////////////
+    ////// SKETCHPAD
+    ///////////////////////////
+    //#region sketchpad
 
     // Draws a line between the specified position on the supplied canvas name
     // Parameters are: A canvas context, the x position, the y position, the size of the dot
@@ -272,6 +495,7 @@
 
     // Keep track of the mouse position and draw a dot if mouse button is currently pressed
     function sketchpad_mouseMove(e) {
+        console.log('mouseMove');
         // Update the mouse co-ordinates when moved
         getMousePos(e);
 
@@ -294,6 +518,9 @@
             mouseX = e.layerX;
             mouseY = e.layerY;
         }
+
+        console.log('mouseX:' + mouseX);
+        console.log('mouseY:' + mouseY);
     }
 
     // Draw something when a touch start is detected
@@ -304,7 +531,11 @@
         drawLine(ctx, touchX, touchY, penSize);
 
         // Prevents an additional mousedown event being triggered
-        event.preventDefault();
+
+        if (event.cancelable) {
+            event.preventDefault();
+        }
+
     }
 
     function sketchpad_touchEnd() {
@@ -315,6 +546,7 @@
 
     // Draw something and prevent the default scrolling when touch movement is detected
     function sketchpad_touchMove(e) {
+        console.log('touchMove');
         // Update the touch co-ordinates
         getTouchPos(e);
 
@@ -322,7 +554,9 @@
         drawLine(ctx, touchX, touchY, penSize);
 
         // Prevent a scrolling action as a result of this touchmove triggering.
-        event.preventDefault();
+        if (event.cancelable) {
+            event.preventDefault();
+        }
     }
 
     // Get the touch position relative to the top-left of the canvas
@@ -336,14 +570,15 @@
         if (e.touches) {
             if (e.touches.length == 1) { // Only deal with one finger
                 var touch = e.touches[0]; // Get the information for finger #1
-                touchX = touch.pageX - touch.target.offsetLeft;
-                touchY = touch.pageY - touch.target.offsetTop;
+                touchX = touch.pageX - 500;
+                touchY = touch.pageY - 200;
+                console.log('TouchX:' + touchX);
+                console.log('TouchY:' + touchY);
             }
         }
     }
 
-    // Set-up the canvas and add our event handlers after the page has loaded
-    function init() {
+    function initCanvas() {
         // Get the specific canvas element from the HTML document
         canvas = document.getElementById('sketchpad');
 
@@ -364,4 +599,5 @@
             canvas.addEventListener('touchmove', sketchpad_touchMove, false);
         }
     }
+    //#endregion
 </script>
