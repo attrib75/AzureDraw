@@ -6,6 +6,7 @@ This project uses Microsoft's [Custom Vision Service](https://www.customvision.a
 
 Also, to be feature parity complete with Quick Draw, I added speech to text so the app speaks its predictions, using Microsoft's [Text to Speech](https://azure.microsoft.com/en-us/services/cognitive-services/text-to-speech/) service!  
 
+##### Configuration
 
 Each service requires its own provisioning and keys, so to use this app you'll need to provision your own services and host it yourself.  It is an ASP.NET core app, and uses strongly typed app settings parsed from the appsettings.json file.  To set the config for this app, construct your appsettings.json file like this:
 
