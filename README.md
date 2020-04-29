@@ -16,7 +16,7 @@ Each service requires its own provisioning and keys, so to use this app you'll n
     "ImageService_ModelName": "YOUR_CUSTOM_VISION_ITERATION",
     "SpeechService_ApiKey": "YOUR_SPEECH_SERVICE_API_KEY",
     "SpeechServiceRegion": "YOUR_SPEECH_SERVICE_REGION"
-  }
+     }
 
 After that, you should be all set.  This was fun to conceptualize, then bring to reality.  The cool part for me is that the whole stack from the app platform itself all the way to the AI is all Microsoft.  Yay! Feel free to discuss an idea or even send a PR if you want to contribute.  
 
