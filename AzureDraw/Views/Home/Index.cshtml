@@ -571,10 +571,13 @@
         if (e.touches) {
             if (e.touches.length == 1) { // Only deal with one finger
                 var touch = e.touches[0]; // Get the information for finger #1
-                touchX = touch.pageX - 500;
-                touchY = touch.pageY - 200;
+                touchX = touch.clientX - touch.target.offsetWidth;//- touch.target.offsetLeft;
+                touchY = touch.clientY - touch.target.offsetTop;// - touch.target.offsetTop;
                 console.log('TouchX:' + touchX);
                 console.log('TouchY:' + touchY);
+
+                console.log('mouseX:' + mouseX);
+                console.log('mouseY:' + mouseY);
             }
         }
     }
